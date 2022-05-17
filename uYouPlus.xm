@@ -571,5 +571,4 @@ static NSString *uYouPiPButtonVideoControlsOverlay = @"uYouPiPButtonVideoControl
     }if (![defaults boolForKey:uYouPiPButtonVideoControlsOverlay]) {
         [defaults setBool:NO forKey:uYouPiPButtonVideoControlsOverlay];     // Turns off uYouPip bool since it doesn't work correctly (used YouPiP instead)
     }
-    %init;
 }
