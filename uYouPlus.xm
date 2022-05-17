@@ -545,6 +545,10 @@ static void replaceTab(YTIGuideResponse *response) {
 %end
 %end
 
+static NSString *removeYouTubeAds = @"removeYouTubeAds";                                            // uYou's No Ads bool
+static NSString *hideuYouPiPButtonUnderTheVideoPlayer = @"hideuYouPiPButtonUnderTheVideoPlayer";    // uYou's PiP button under player
+static NSString *uYouPiPButtonVideoControlsOverlay = @"uYouPiPButtonVideoControlsOverlay";          // uYou's PiP button in overlay
+
 %ctor {
     %init;
     if (oled()) {
@@ -559,4 +563,13 @@ static void replaceTab(YTIGuideResponse *response) {
     if (bigYTMiniPlayer() && (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad)) {
        %init(Main);
     }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:removeYouTubeAds]) {
+        [defaults setBool:NO forKey:removeYouTubeAds];                      // Turns off no ads bool since it not needed (included alternative adblocker)
+    }if (![defaults boolForKey:hideuYouPiPButtonUnderTheVideoPlayer]) {
+        [defaults setBool:YES forKey:hideuYouPiPButtonUnderTheVideoPlayer]; // Turns off uYouPip bool since it doesn't work correctly (used YouPiP instead)
+    }if (![defaults boolForKey:uYouPiPButtonVideoControlsOverlay]) {
+        [defaults setBool:NO forKey:uYouPiPButtonVideoControlsOverlay];     // Turns off uYouPip bool since it doesn't work correctly (used YouPiP instead)
+    }
+    %init;
 }
