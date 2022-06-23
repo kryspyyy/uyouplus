@@ -34,3 +34,6 @@
 	path = Extensions
 	url = https://github.com/CokePokes/YoutubeExtensions.git
 	branch = main
+[submodule "Tweaks/YTTrueTime"]
+	path = Tweaks/YTTrueTime
+	url = https://github.com/DovidP/YTTrueTime
