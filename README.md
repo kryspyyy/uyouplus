@@ -27,6 +27,8 @@
 
 - [YouTube Extensions](https://github.com/CokePokes/YoutubeExtensions) by [CokePokes](https://github.com/CokePokes/).
 
+- [DovidP](https://github.com/DovidP) for [YTTrueTime](https://github.com/DovidP/YTTrueTime)
+
 - [Al4ise](https://github.com/Al4ise) for [Azule](https://github.com/Al4ise/Azule), a tool used to inject jailbreak tweaks into jailed iOS apps.
 
 - [theos team](https://github.com/theos/theos) for theos & theos-jailed.
