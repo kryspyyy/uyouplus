@@ -731,7 +731,7 @@ static void replaceTab(YTIGuideResponse *response) {
     if (@available(iOS 16, *)) {
        %init(iOS16);
     }
-	if (DisableHeatwave)
-	   %init gDisableHeatwave
-	}
+    if (DisableHeatwave()) {
+       %init(gDisableHeatwave);
+    }
 }
