@@ -242,6 +242,11 @@ BOOL hidePaidPromotionCard(){
 - (BOOL)shouldEnablePlayerBar { return YES; }
 %end
 
+// Disable Heatwave video player - @arichorn
+%hook YTInlinePlayerBarContainerView
+- (BOOL)canShowHeatwave { return YES;}
+%end
+
 // Workaround for issue #54
 %hook YTMainAppVideoPlayerOverlayViewController
 - (void)updateRelatedVideos {
