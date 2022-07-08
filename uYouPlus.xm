@@ -68,8 +68,11 @@ BOOL castConfirm() {
 BOOL ytMiniPlayer() {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"ytMiniPlayer_enabled"];
 }
-BOOL hidePaidPromotionCard(){
+BOOL hidePaidPromotionCard() {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"hidePaidPromotionCard_enabled"];
+}
+BOOL DisableHeatwave(){
+return [[NSUserDefaults standardUserDefaults] boolForKey:@"DisableHeatwave_enabled"];
 }
 
 # pragma mark - Tweaks
@@ -240,11 +243,6 @@ BOOL hidePaidPromotionCard(){
 // Enable Shorts scroll bar - @level3tjg - https://reddit.com/r/jailbreak/comments/v29yvk/_/iasl1l0/
 %hook YTReelPlayerViewController
 - (BOOL)shouldEnablePlayerBar { return YES; }
-%end
-
-// Disable Heatwave video player - @arichorn
-%hook YTInlinePlayerBarContainerView
-- (BOOL)canShowHeatwave { return YES;}
 %end
 
 // Workaround for issue #54
@@ -706,6 +704,12 @@ static void replaceTab(YTIGuideResponse *response) {
 %end
 %end
 
+// Disable Heatwave video player - @arichorn
+%group gDisableHeatwave
+%hook YTInlinePlayerBarContainerView
+- (BOOL)canShowHeatwave { return YES;}
+%end
+
 # pragma mark - ctor
 %ctor {
     %init;
@@ -727,4 +731,7 @@ static void replaceTab(YTIGuideResponse *response) {
     if (@available(iOS 16, *)) {
        %init(iOS16);
     }
+	if (DisableHeatwave)
+	   %init gDisableHeatwave
+	}
 }

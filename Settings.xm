@@ -23,6 +23,7 @@ extern BOOL castConfirm();
 extern BOOL ytMiniPlayer();
 extern BOOL hidePreviousAndNextButton();
 extern BOOL hidePaidPromotionCard();
+extern BOOL DisableHeatwave();
 
 // Settings
 %hook YTAppSettingsPresentationData
@@ -41,6 +42,15 @@ extern BOOL hidePaidPromotionCard();
 - (void)updateuYouPlusSectionWithEntry:(id)entry {
     YTSettingsViewController *delegate = [self valueForKey:@"_dataDelegate"];
     NSBundle *tweakBundle = uYouPlusBundle();
+
+    YTSettingsSectionItem *DisableHeatwave = [[%c(YTSettingsSectionItem) alloc] initWithTitle:LOC(@"DISABLE_VIDEO_PLAYER_HEATWAVE") titleDescription:LOC(@"DISABLE_VIDEO_PLAYER_HEATWAVE_DESC")];
+    DisableHeatwave.hasSwitch = YES;
+    DisableHeatwave.switchVisible = YES;
+    DisableHeatwave.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"DisableHeatwave_enabled"];
+    DisableHeatwave.switchBlock = ^BOOL (YTSettingsCell *cell, BOOL enabled) {
+        [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:@"DisableHeatwave_enabled"];
+        return YES;
+    };
 
     YTSettingsSectionItem *hidePaidPromotionCard = [[%c(YTSettingsSectionItem) alloc] initWithTitle:LOC(@"HIDE_PAID_PROMOTION_CARDS") titleDescription:LOC(@"HIDE_PAID_PROMOTION_CARDS_DESC")];
     hidePaidPromotionCard.hasSwitch = YES;
@@ -159,7 +169,7 @@ extern BOOL hidePaidPromotionCard();
         return YES;
     };
 
-    NSMutableArray <YTSettingsSectionItem *> *sectionItems = [NSMutableArray arrayWithArray:@[autoFull, castConfirm, ytMiniPlayer, hideAutoplaySwitch, hideCC, hideHUD, hidePaidPromotionCard, hidePreviousAndNextButton, hideHoverCard, bigYTMiniPlayer, oledDarkMode, oledKeyBoard, reExplore]];
+    NSMutableArray <YTSettingsSectionItem *> *sectionItems = [NSMutableArray arrayWithArray:@[autoFull, castConfirm, ytMiniPlayer, hideAutoplaySwitch, hideCC, hideHUD, hidePaidPromotionCard, hidePreviousAndNextButton, hideHoverCard, bigYTMiniPlayer, oledDarkMode, oledKeyBoard, reExplore, DisableHeatwave]];
     [delegate setSectionItems:sectionItems forCategory:uYouPlusSection title:@"uYouPlus" titleDescription:nil headerHidden:NO];
 }
 
