@@ -58,7 +58,7 @@ jobs:
 
       - name: Download iOS 15 SDK
         run: |
-          curl -LO https://github.com/chrisharper22/sdks/archive/main.zip
+          curl -LO https://github.com/arichorn/sdks/archive/main.zip
           TMP=$(mktemp -d)
           unzip -qq main.zip -d $TMP
           mv $TMP/sdks-main/*.sdk $THEOS/sdks
