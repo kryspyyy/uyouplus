@@ -139,6 +139,11 @@ BOOL hidePaidPromotionCard() {
 }
 %end
 
+// Block Update Dialog: https://github.com/PoomSmart/YouTubeHeader/blob/main/YTGlobalConfig.h
+%hook YTGlobalConfig
+- (BOOL)shouldBlockUpgradeDialog { return YES;}
+%end
+
 // YTAutoFullScreen: https://github.com/PoomSmart/YTAutoFullScreen/
 %hook YTPlayerViewController
 - (void)loadWithPlayerTransition:(id)arg1 playbackConfig:(id)arg2 {
