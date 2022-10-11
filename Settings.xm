@@ -10,22 +10,23 @@
 static const NSInteger uYouPlusSection = 500;
 
 extern NSBundle *uYouPlusBundle();
-extern BOOL hideHUD();
 extern BOOL oled();
 extern BOOL oledKB();
-extern BOOL autoFullScreen();
-extern BOOL hideHoverCard();
-extern BOOL reExplore();
-extern BOOL bigYTMiniPlayer();
+extern BOOL hideHUD();
 extern BOOL hideCC();
-extern BOOL hideAutoplaySwitch();
-extern BOOL castConfirm();
-extern BOOL ytMiniPlayer();
-extern BOOL hidePreviousAndNextButton();
+extern BOOL hideHoverCard();
 extern BOOL hidePaidPromotionCard();
-extern BOOL fixGoogleSignIn();
+extern BOOL hideAutoplaySwitch();
+extern BOOL hidePreviousAndNextButton();
 extern BOOL replacePreviousAndNextButton();
+extern BOOL castConfirm();
+extern BOOL oled();
+extern BOOL autoFullScreen();
+extern BOOL bigYTMiniPlayer();
+extern BOOL ytMiniPlayer();
+extern BOOL reExplore();
 extern BOOL dontEatMyContent();
+extern BOOL fixGoogleSignIn();
 
 // Settings
 %hook YTAppSettingsPresentationData
@@ -198,7 +199,7 @@ extern BOOL dontEatMyContent();
         return YES;
     };
 
-    NSMutableArray <YTSettingsSectionItem *> *sectionItems = [NSMutableArray arrayWithArray:@[killApp, autoFull, castConfirm, ytMiniPlayer, fixGoogleSignIn, hideAutoplaySwitch, hideCC, hideHUD, hidePaidPromotionCard, hidePreviousAndNextButton, hideHoverCard, bigYTMiniPlayer, oledDarkMode, oledKeyBoard, dontEatMyContent, replacePreviousAndNextButton, reExplore]];
+    NSMutableArray <YTSettingsSectionItem *> *sectionItems = [NSMutableArray arrayWithArray:@[killApp, oledDarkMode, oledKeyBoard, hideHUD, hideCC, hideHoverCard, hidePaidPromotionCard, hideAutoplaySwitch, hidePreviousAndNextButton, replacePreviousAndNextButton, castConfirm, autoFull, bigYTMiniPlayer, ytMiniPlayer, reExplore, dontEatMyContent, fixGoogleSignIn]];
     [delegate setSectionItems:sectionItems forCategory:uYouPlusSection title:@"uYouPlus" titleDescription:nil headerHidden:NO];
 }
 
