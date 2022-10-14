@@ -262,6 +262,8 @@ BOOL dontEatMyContent() {
 %hook YTColdConfig
 - (BOOL)respectDeviceCaptionSetting { return NO; }
 - (BOOL)isLandscapeEngagementPanelSwipeRightToDismissEnabled { return YES; }
+// Fix uYou's label glitching - qnblackcat/uYouPlus#552
+- (BOOL)mainAppCoreClientIosTransientVisualGlitchInPivotBarFix { return NO; } 
 %end
 
 // NOYTPremium - https://github.com/PoomSmart/NoYTPremium/
