@@ -293,11 +293,6 @@ BOOL dontEatMyContent() {
 - (void)showSurveyWithRenderer:(id)arg1 surveyParentResponder:(id)arg2 {}
 %end
 
-// Enable Shorts scroll bar - @PoomSmart
-%hook YTReelPlayerViewController
-- (BOOL)shouldAlwaysEnablePlayerBar { return YES; }
-%end
-
 %hook YTInlinePlayerBarContainerView
 - (void)setUserInteractionEnabled:(BOOL)enabled { %orig(YES); }
 %end
