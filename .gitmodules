@@ -34,3 +34,6 @@
 	path = Extensions
 	url = https://github.com/CokePokes/YoutubeExtensions.git
 	branch = main
+[submodule "Tweaks/YTShortsProgress"]
+	path = Tweaks/YTShortsProgress
+	url = https://github.com/PoomSmart/YTShortsProgress.git
