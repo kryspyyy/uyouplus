@@ -1,0 +1,57 @@
+// Settings
+"DONT_EAT_MY_CONTENT" = "Prepreči Zarezo/Otok na 2:1 Video vsebini (DontEatMyContent)";
+"DONT_EAT_MY_CONTENT_DESC" = "Prepreči Zarezi/Dinamičnemu Otoku, da uničuje 2:1 video vsebino v YouTubu. Potreben je ponoven zagon aplikacije.";
+
+"REPLACE_PREVIOUS_NEXT_BUTTON" = "Zamenjaj gumb Prejšnji videoposnetek in gumb Naslednji videoposnetek.";
+"REPLACE_PREVIOUS_NEXT_BUTTON_DESC" = "Zamenjaj gumb Prejšnji videoposnetek in gumb Naslednji videoposnetek z gumboma Prevrti Naprej in Previj Nazaj. Potreben je ponoven zagon aplikacije.";
+
+"FIX_GOOGLE_SIGNIN" = "Popravi Google prijavo (samo za uporabnike TrollStora).";
+"FIX_GOOGLE_SIGNIN_DESC" = "To nastavitev vklopite samo, če ste aplikacijo namestili preko TrollStora ter se ne morete prijaviti v Google račun. Če se lahko prijavite normalno, pustite to nastavitev izklopljeno. Potreben je ponoven zagon aplikacije.";
+
+"KILL_APP" = "Zapri YouTube.";
+"KILL_APP_DESC" = "Pritisnite tukaj, da zaprete YouTube.";
+
+"HIDE_PREVIOUS_AND_NEXT_BUTTON" = "Skrij gumb Prejšnji videoposnetek in gumb Naslednji videoposnetek.";
+"HIDE_PREVIOUS_AND_NEXT_BUTTON_DESC" = "Skrij gumb Prejšnji videoposnetek in gumb Naslednji videoposnetek v prekrivalniku kontrolnih elementov videoposnetka.";
+
+"YT_MINIPLAYER" = "Vklopite majhni predvajalnik za vse YouTube videoposnetke.";
+"YT_MINIPLAYER_DESC" = "Naprimer za otroške videoposnetke.";
+
+"CAST_CONFIRM" = "Dodatno obvestilo pred predvajanjem (YTCastConfirm).";
+"CAST_CONFIRM_DESC" = "Prikaže dodatno obvestilo pred predvajanjem za preprečitev nenamernega predvajanja na televiziji.";
+
+"HIDE_HOVER_CARD" = "Skrij lebdeče kartice na končnih zaslonih (YTNoHoverCards).";
+"HIDE_HOVER_CARD_DESC" = "Skrije končne zaslone ustvarjalcev (sličice) na koncu videoposnetkov.";
+
+"NEW_MINIPLAYER_STYLE" = "Nov slog vrstice za mini predvajalnik (BigYTMiniPlayer).";
+"NEW_MINIPLAYER_STYLE_DESC" = "Potreben je ponoven zagon aplikacije.";
+
+"YT_RE_EXPLORE" = "Zamenjaj zavihek s kratkimi videoposnetki z zavihkom za raziskovanje (YTReExplore)."
+"YT_RE_EXPLORE_DESC" = "Potreben je ponoven zagon aplikacije.";
+
+"HIDE_SUBTITLES_BUTTON" = "Skrij gumb za podnapise.";
+"HIDE_SUBTITLES_BUTTON_DESC" = "Skrije gumb za podnapise v prekrivalniku kontrolnih elementov videoposnetka.";
+
+"HIDE_AUTOPLAY_SWITCH" = "Skrij stikalo za samodejno predvajanje.";
+"HIDE_AUTOPLAY_SWITCH_DESC" = "Skrije stikalo za samodejno predvajanje v prekrivalniku kontrolnih elementov videoposnetka.";
+
+"AUTO_FULLSCREEN" = "Samodejen celozaslonski način (YTAutoFullScreen).";
+"AUTO_FULLSCREEN_DESC" = "Samodejno predvajaj videoposnetke v celozaslonskem načinu.";
+
+"HIDE_HUD_MESSAGES" = "Skrij HUD Sporočila.";
+"HIDE_HUD_MESSAGES_DESC" = "Naprimer: Podnapisi so vklopljeni/izklopljeni, Ponavljanje videoposnetka je vklopljeno...";
+
+"OLED_DARKMODE" = "OLED Temni način (Eksperimentalno).";
+"OLED_DARKMODE_DESC" = "V nekaterih primerih morda ne bo delovalo pravilno. Po vklopu/izklopu nastavitve je potreben je ponoven zagon aplikacije.";
+
+"OLED_KEYBOARD" = "OLED Tipkovnica (Eksperimentalno).";
+"OLED_KEYBOARD_DESC" = "V nekaterih primerih morda ne bo delovalo pravilno. Potreben je ponoven zagon aplikacije.";
+
+"HIDE_PAID_PROMOTION_CARDS" = "Skrij pasico za plačano promocijo.";
+"HIDE_PAID_PROMOTION_CARDS_DESC" = "Skrije pasico "Vsebuje plačane promocije" v nekaterih videoposnetkih.";
+
+// YTCastConfirm
+"CASTING" = "Predvajanje na televiziji.";
+"MSG_ARE_YOU_SURE" = "Ali ste prepričani, da želite začeti predvajati na televiziji?";
+"MSG_YES" = "Da";
+"MSG_CANCEL" = "Prekliči";
