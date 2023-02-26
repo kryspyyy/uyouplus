@@ -4,6 +4,7 @@
 #import <dlfcn.h>
 #import <sys/utsname.h>
 #import <substrate.h>
+#import "fishhook.h"
 #import "Header.h"
 #import "Tweaks/FLEX/FLEX.h"
 #import "Tweaks/YouTubeHeader/YTVideoQualitySwitchOriginalController.h"
@@ -38,6 +39,22 @@ NSBundle *uYouPlusBundle() {
     return bundle;
 }
 NSBundle *tweakBundle = uYouPlusBundle();
+
+static CFDictionaryRef (*orig_CFBundleGetInfoDictionary)(CFBundleRef);
+CFDictionaryRef my_CFBundleGetInfoDictionary(CFBundleRef bundle) {
+    CFDictionaryRef dict = CFBundleGetInfoDictionary(bundle);
+    if (dict != NULL) {
+        CFStringRef packageType = (CFStringRef)CFDictionaryGetValue(dict, CFSTR("CFBundlePackageType"));
+        if (packageType != NULL && CFStringCompare(packageType, CFSTR("APPL"), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+            CFStringRef currentBundleIdentifier = (CFStringRef)CFDictionaryGetValue(dict, kCFBundleIdentifierKey);
+            if (currentBundleIdentifier != NULL && CFStringHasPrefix(currentBundleIdentifier, CFSTR("com.google.ios.youtube"))) {
+                CFMutableDictionaryRef mutableDict = (CFMutableDictionaryRef)dict;
+                CFDictionarySetValue(mutableDict, kCFBundleIdentifierKey, CFSTR("com.google.ios.youtube"));
+            }
+        }
+    }
+    return dict;
+}
 
 // Keychain patching
 static NSString *accessGroupID() {
@@ -1329,6 +1346,9 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 %ctor {
     // Load uYou first so its functions are available for hooks.
     dlopen([[NSString stringWithFormat:@"%@/Frameworks/uYou.dylib", [[NSBundle mainBundle] bundlePath]] UTF8String], RTLD_LAZY);
+
+    struct rebinding symbol[1] = {{"CFBundleGetInfoDictionary", (void *)my_CFBundleGetInfoDictionary, (void **)&orig_CFBundleGetInfoDictionary}};
+    rebind_symbols(symbol, 1);
 
     %init;
     if (@available(iOS 16, *)) {
