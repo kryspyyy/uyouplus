@@ -115,8 +115,8 @@
 "ENABLE_YT_STARTUP_ANIMATION" = "Enable YouTube startup animation";
 "ENABLE_YT_STARTUP_ANIMATION_DESC" = "";
 
-"FIX_GOOGLE_SIGNIN" = "Napraw logowanie się z Google (tylko dla użytkowników TrollStore)";
-"FIX_GOOGLE_SIGNIN_DESC" = "Włącz tą opcję tylko wtedy, kiedy nie możesz zalogować się swoim kontem Google, a aplikacja została zainstalowana przez TrollStore. Jeżeli da się zalogować normalnie, zostaw to wyłączone. Restart aplikacji jest wymagany.";
+"HIDE_SPONSORBLOCK_BUTTON" = "Hide iSponsorBlock button";
+"HIDE_SPONSORBLOCK_BUTTON_DESC" = "Hide the iSponsorBlock button in the Nav Bar. App restart is required.";
 
 "HIDE_CHIP_BAR" = "Hide the Upper bar";
 "HIDE_CHIP_BAR_DESC" = "Hide Upper bar in the Home feeds (Trends, Music, Gaming...) and Subcription feeds (All videos, Continue watching...). App restart is required.";
