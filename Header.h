@@ -1,5 +1,6 @@
 #import "Tweaks/YouTubeHeader/YTAppDelegate.h"
 #import "Tweaks/YouTubeHeader/YTPlayerViewController.h"
+#import "Tweaks/YouTubeHeader/YTQTMButton.h"
 
 #define LOC(x) [tweakBundle localizedStringForKey:x value:nil table:nil]
 #define YT_BUNDLE_ID @"com.google.ios.youtube"
@@ -50,6 +51,10 @@
 
 @interface YTPlaylistHeaderViewController: UIViewController
 @property UIButton *downloadsButton;
+@end
+
+@interface YTRightNavigationButtons : UIView
+@property YTQTMButton *sponsorBlockButton;
 @end
 
 // DontEatMyContent
