@@ -460,6 +460,7 @@ static NSLayoutConstraint *widthConstraint, *heightConstraint, *centerXConstrain
 // New video played
 -(void)playbackController:(id)playbackController didActivateVideo:(id)video withPlaybackData:(id)playbackData {
     %orig(playbackController, video, playbackData);
+    DEMC_centerRenderingView();
     if ([[self activeVideoPlayerOverlay] isFullscreen]) // New video played while in full screen (landscape)
         // Activate since new videos played in full screen aren't zoomed-to-fill by default
         // (i.e. the notch/Dynamic Island will cut into content when playing a new video in full screen)
