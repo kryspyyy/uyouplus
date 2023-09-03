@@ -1,6 +1,6 @@
 [submodule "Tweaks/MrBeastify"]
 	path = Tweaks/MrBeastify
-	url = https://github.com/leminlimez/MrBeastify
+	url = https://github.com/leminlimez/MrBeastify.git
 	branch = master
 [submodule "Tweaks/YTUHD"]
 	path = Tweaks/YTUHD
