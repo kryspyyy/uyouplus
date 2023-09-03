@@ -22,6 +22,7 @@ jobs:
         run: |
           git submodule add https://github.com/michael-winay/YTNoCommunityPosts.git Tweaks/YTNoCommunityPosts
 #         git submodule add https://github.com/arichorn/YTHoldForSpeed.git Tweaks/YTHoldForSpeed
+#         git submodule add https://github.com/leminlimez/MrBeastify.git Tweaks/MrBeastify
           git add .
           git commit -m "added uYouPlusExtra submodules"
           git push origin
@@ -71,6 +72,7 @@ jobs:
       - name: Make .bundle files
         run: |
           cd Bundles
+          ln -s ..Tweaks/MrBeastify/layout/Library/Application\ Support/MrBeastify.bundle/ MrBeastify.bundle
           ln -s ../Tweaks/YTVideoOverlay/layout/Library/Application\ Support/YTVideoOverlay.bundle YTVideoOverlay.bundle
           ln -s ../Tweaks/YouMute/layout/Library/Application\ Support/YouMute.bundle YouMute.bundle
           ln -s ../Tweaks/YouQuality/layout/Library/Application\ Support/YouQuality.bundle YouQuality.bundle
