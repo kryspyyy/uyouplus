@@ -1,3 +1,5 @@
+// Template for whenever I refresh the main branch. and to re-add the submodules afterwards.
+
 name: Update Submodules
 
 on:
@@ -15,6 +17,23 @@ jobs:
         run: |
            git config --global user.email "actions@github.com"
            git config --global user.name "GitHub Actions"
+
+      - name: Add uYouPlusExtra submodules
+        run: |
+          git submodule add https://github.com/leminlimez/MrBeastify.git Tweaks/MrBeastify
+          git submodule add https://github.com/michael-winay/YTNoCommunityPosts.git Tweaks/YTNoCommunityPosts
+#         git submodule add https://github.com/arichorn/YTHoldForSpeed.git Tweaks/YTHoldForSpeed
+          git add .
+          git commit -m "added uYouPlusExtra submodules"
+          git push origin
+
+#     - name: Update submodules
+#       run: |
+#         git submodule update --init --recursive --remote
+#         git add .
+#         git commit -m "updated submodules"
+#         git push origin
+#       continue-on-error: true
 
       - name: Update submodules
         run: |
@@ -49,6 +68,18 @@ jobs:
           git commit -m "updated submodules"
           git push origin
         continue-on-error: true
+
+      - name: Make .bundle files
+        run: |
+          cd Bundles
+          ln -s ../Tweaks/MrBeastify/layout/Library/Application\ Support/MrBeastify.bundle MrBeastify.bundle
+          ln -s ../Tweaks/YTNoCommunityPosts/layout/Library/Application\ Support/YTNoCommunityPosts.bundle YTNoCommunityPosts.bundle
+          ln -s ../Tweaks/YTVideoOverlay/layout/Library/Application\ Support/YTVideoOverlay.bundle YTVideoOverlay.bundle
+          ln -s ../Tweaks/YouMute/layout/Library/Application\ Support/YouMute.bundle YouMute.bundle
+          ln -s ../Tweaks/YouQuality/layout/Library/Application\ Support/YouQuality.bundle YouQuality.bundle
+          git add .
+          git commit -m "Added bundles"
+          git push origin
 
       - name: Check exit code
         run: |
