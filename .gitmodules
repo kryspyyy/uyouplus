@@ -54,3 +54,9 @@
 	path = Tweaks/iSponsorBlock
 	url = https://github.com/Galactic-Dev/iSponsorBlock.git
 	branch = master
+[submodule "Tweaks/YTNoCommunityPosts"]
+	path = Tweaks/YTNoCommunityPosts
+	url = https://github.com/michael-winay/YTNoCommunityPosts.git
+[submodule "Tweaks/MrBeastify"]
+	path = Tweaks/MrBeastify
+	url = https://github.com/arichorn/MrBeastify.git
