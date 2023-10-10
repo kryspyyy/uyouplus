@@ -112,6 +112,7 @@ jobs:
         with:
           path: theos/sdks/
           key: ${{ env.cache-name }}
+          restore-keys: ${{ env.cache-name }}
       
       - name: Download iOS SDK
         if: steps.SDK.outputs.cache-hit != 'true'
@@ -130,6 +131,7 @@ jobs:
         with:
           path: main/YouTube.ipa
           key: ${{ env.cache-name }}
+          restore-keys: ${{ env.cache-name }}
 
       - name: Download YouTube IPA
         if: ${{ steps.SDK.outputs.cache-hit != 'true' && inputs.build_ipa }}
