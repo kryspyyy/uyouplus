@@ -1,0 +1,54 @@
+name: Build uYouPlus for release
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_ipa:
+        description: "Build package for sideloading"
+        type: boolean
+      build_debs:
+        description: "Build packages for jailbroken devices"
+        type: boolean
+      sdk_version:
+        description: "iOS SDK version to be used during build"
+        default: "15.5"
+        type: string
+      youtube_version:
+        description: "The version of YouTube"
+        type: string
+      uyou_version:
+        description: "The version of uYou"
+        type: string
+      uyouplus_version:
+        description: "The version of uYouPlus"
+        type: string
+        required: true
+      decrypted_youtube_url:
+        description: "The direct URL to the decrypted YouTube ipa"
+        type: string
+      create_release:
+        description: "Create a draft release"
+        type: boolean
+      bundle_id:
+        description: "Modify the bundle ID. Not recommended"
+        default: "com.google.ios.youtube"
+        type: string
+      app_name:
+        description: "Modify the name of the app on the Home Screen. Not recommended"
+        default: "YouTube"
+        type: string
+
+jobs:
+  build-release:
+    uses: ./.github/workflows/build.yml
+    with:
+      build_ipa: ${{ inputs.build_ipa }}
+      build_debs: ${{ inputs.build_debs }}
+      sdk_version: ${{ inputs.sdk_version }}
+      uyouplus_version: ${{ inputs.uyouplus_version }}
+      uyou_version: ${{ inputs.uyou_version }}
+      youtube_version: ${{ inputs.youtube_version }}
+      decrypted_youtube_url: ${{ inputs.decrypted_youtube_url }}
+      create_release: ${{ inputs.create_release }}
+      bundle_id: ${{ inputs.bundle_id }}
+      app_name: ${{ inputs.app_name }}

@@ -1,0 +1,7 @@
+build_ipa: true
+build_debs: false
+youtube_version: "18.40.01"
+uyou_version: "3.0.1"
+uyouplus_version: "1.0"
+decrypted_youtube_url: "https://example.com/YouTube.ipa"
+create_release: false

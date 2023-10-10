@@ -8,23 +8,28 @@ export Alderis_XCODEFLAGS = DYLIB_INSTALL_NAME_BASE=/Library/Frameworks BUILD_LI
 export libcolorpicker_LDFLAGS = -F$(TARGET_PRIVATE_FRAMEWORK_PATH) -install_name @rpath/libcolorpicker.dylib
 export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks/RemoteLog
 
-ifneq ($(JAILBROKEN),1)
-export DEBUGFLAG = -ggdb -Wno-unused-command-line-argument -L$(THEOS_OBJ_DIR) -F$(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install/Library/Frameworks
-MODULES = jailed
+ifneq ($(MAKECMDGOALS),clean)
+	ifndef PACKAGE_VERSION
+		$(error PACKAGE_VERSION not set, please set it to the version of uYouPlus)
+	endif
+	ifneq ($(JAILBROKEN),1)
+			ifndef YOUTUBE_VERSION
+				$(error YOUTUBE_VERSION not set, please set it to match the version of the YouTube IPA)
+			endif
+			ifndef UYOU_VERSION
+				$(error UYOU_VERSION not set, please set it to the version of uYou to download)
+			endif
+	endif
 endif
 
-ifndef YOUTUBE_VERSION
-YOUTUBE_VERSION = 18.32.2
+ifneq ($(JAILBROKEN),1)
+	export DEBUGFLAG += -Wno-unused-command-line-argument -L$(THEOS_OBJ_DIR) -F$(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install/Library/Frameworks
+	MODULES = jailed
+	PACKAGE_VERSION := $(YOUTUBE_VERSION)-$(UYOU_VERSION)-$(PACKAGE_VERSION)
 endif
-ifndef UYOU_VERSION
-UYOU_VERSION = 3.0.1
-endif
-PACKAGE_VERSION = $(YOUTUBE_VERSION)-$(UYOU_VERSION)
 
 INSTALL_TARGET_PROCESSES = YouTube
 TWEAK_NAME = uYouPlus
-DISPLAY_NAME = YouTube
-BUNDLE_ID = com.google.ios.youtube
 
 $(TWEAK_NAME)_FILES = uYouPlus.xm Settings.xm
 $(TWEAK_NAME)_FRAMEWORKS = UIKit Security
@@ -36,9 +41,17 @@ $(TWEAK_NAME)_EMBED_BUNDLES = $(wildcard Bundles/*.bundle)
 $(TWEAK_NAME)_EMBED_EXTENSIONS = $(wildcard Extensions/*.appex)
 
 include $(THEOS)/makefiles/common.mk
+
+ifneq ($(_THEOS_PLATFORM_HAS_XCODE),1)
+	ifneq ($(JAILBROKEN),1)
+		$(error IPAs can only be compiled on macOS with Xcode installed)
+	endif
+	$(TWEAK_NAME)_FILES += Version.x
+endif
+
 ifneq ($(JAILBROKEN),1)
-SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality
-include $(THEOS_MAKE_PATH)/aggregate.mk
+	SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality
+	include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 include $(THEOS_MAKE_PATH)/tweak.mk
 
@@ -64,7 +77,7 @@ before-all::
  		curl -s https://miro92.com/repo/debs/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -o $(UYOU_DEB); \
  	fi; \
 	if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
-		tar -xf Tweaks/uYou/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -C Tweaks/uYou; tar -xf Tweaks/uYou/data.tar* -C Tweaks/uYou; \
+		tar -xf $(UYOU_DEB) -C $(UYOU_PATH); tar -xf $(UYOU_PATH)/data.tar* -C $(UYOU_PATH); \
 		if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
 			$(PRINT_FORMAT_ERROR) "Failed to extract uYou"; exit 1; \
 		fi; \

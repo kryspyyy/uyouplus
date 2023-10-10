@@ -13,7 +13,7 @@ on:
 # Set the Job #
 ###############
 jobs:
-  build:
+  update-submodules:
     name: Update submodules
     runs-on: ubuntu-latest
     env:

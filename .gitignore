@@ -1,5 +1,9 @@
+.env
+.input
+.secrets
 .theos
 .DS_Store
+artifacts/
 packages/
 tmp/
 Tweaks/uYou/*

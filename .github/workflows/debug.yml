@@ -1,0 +1,18 @@
+name: Build uYouPlus for debugging
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-debug:
+    uses: ./.github/workflows/build.yml
+    with:
+      build_ipa: true
+      build_debs: false
+      uyouplus_version: '1.0'
+      uyou_version: '3.0.1'
+      youtube_version: '18.40.01'
+      decrypted_youtube_url: 'https://nextcloud.level3tjg.me/s/eNLakagaY3KotW4/download/com.google.ios.youtube-18.40.01-Decrypted.ipa'
+      create_release: false

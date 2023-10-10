@@ -1,0 +1,3 @@
+-P macos-12=-self-hosted
+--artifact-server-path artifacts
+-W .github/workflows/build.yml
