@@ -173,16 +173,10 @@ static void refreshUYouAppearance() {
 %end
 
 // Prevent uYou's playback from colliding with YouTube's
-BOOL isYTPlaybackActive = NO;
-%hook HAMPlayerInternal
-- (void)play { %orig; isYTPlaybackActive = YES; }
-- (void)pause { %orig; isYTPlaybackActive = NO; }
-- (void)terminate { %orig; isYTPlaybackActive = NO; }
-%end
-%hook PlayerManager
-- (void)play {
-    if (isYTPlaybackActive) return;
+%hook PlayerVC
+- (void)close {
     %orig;
+    [[PlayerManager sharedInstance] setSource:nil];
 }
 %end
 
