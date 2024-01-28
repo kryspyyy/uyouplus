@@ -176,6 +176,7 @@ static void refreshUYouAppearance() {
 BOOL isYTPlaybackActive = NO;
 %hook HAMPlayerInternal
 - (void)play { %orig; isYTPlaybackActive = YES; }
+- (void)pause { %orig; isYTPlaybackActive = NO; }
 - (void)terminate { %orig; isYTPlaybackActive = NO; }
 %end
 %hook PlayerManager
