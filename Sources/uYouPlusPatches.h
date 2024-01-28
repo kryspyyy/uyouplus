@@ -1,5 +1,4 @@
 #import "../Tweaks/YouTubeHeader/YTCommonColorPalette.h"
-#include <UIKit/UIKit.h>
 #import "uYouPlus.h"
 
 @interface YTSingleVideoController : NSObject
