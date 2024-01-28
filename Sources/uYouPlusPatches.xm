@@ -176,7 +176,7 @@ static void refreshUYouAppearance() {
 %hook PlayerVC
 - (void)close {
     %orig;
-    [[PlayerManager sharedInstance] setSource:nil];
+    [[%c(PlayerManager) sharedInstance] setSource:nil];
 }
 %end
 
