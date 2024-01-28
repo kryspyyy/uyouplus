@@ -173,10 +173,21 @@ static void refreshUYouAppearance() {
 %end
 
 // Prevent uYou's playback from colliding with YouTube's
+PlayerVC *playerVC;
 %hook PlayerVC
+- (instancetype)init {
+    playerVC = %orig;
+    return playerVC;
+}
 - (void)close {
     %orig;
     [[%c(PlayerManager) sharedInstance] setSource:nil];
+}
+%end
+%hook HAMPlayerInternal
+- (void)play {
+    if (playerVC) [playerVC close];
+    %orig;
 }
 %end
 

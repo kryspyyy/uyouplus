@@ -1,4 +1,5 @@
 #import "../Tweaks/YouTubeHeader/YTCommonColorPalette.h"
+#include <UIKit/UIKit.h>
 #import "uYouPlus.h"
 
 @interface YTSingleVideoController : NSObject
@@ -16,6 +17,10 @@
 // Prevent uYou's playback from colliding with YouTube's
 - (void)setSource:(id)source;
 + (id)sharedInstance;
+@end
+
+@interface PlayerVC : UIViewController
+- (void)close;
 @end
 
 // iOS 16 uYou crash fix - @level3tjg: https://github.com/qnblackcat/uYouPlus/pull/224
