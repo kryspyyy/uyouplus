@@ -1,21 +1,21 @@
 // About
 "ABOUT" = "About";
 
-"VERSION" = "uYouPlus 版本為: %@";
+"VERSION" = "uYouPlus 版本為:";
 "VERSION_CHECK" = "查看最新版本";
 
-"REPORT_AN_ISSUE" = "Report an issue";
-"ADD_TITLE" = "Add your title here...";
+"REPORT_AN_ISSUE" = "回報問題";
+"ADD_TITLE" = "新增您的主旨...";
 
-"QUIT_YOUTUBE" = "Quit YouTube";
+"QUIT_YOUTUBE" = "離開 YouTube";
 
-"RESTART_YOUTUBE" = "Restart YouTube to apply changes";
+"RESTART_YOUTUBE" = "重新起動 YouTube 以套用您的更變";
 
 // App appearance
-"APP_THEME" = "🎨 App appearance";
+"APP_THEME" = "🎨 App 外觀";
 "THEME_OPTIONS" = "主題風格選項";
 
-"DARK_THEME" = "Dark theme";
+"DARK_THEME" = "黑暗主題";
 
 "DEFAULT_THEME" = "預設";
 "DEFAULT_THEME_DESC" = "YouTube預設深色模式. 需要重新啟動應用程式。";
@@ -25,18 +25,18 @@
 
 "OLED_DARK_THEME" = "OLED 深色模式（實驗性）";
 "OLED_DARK_THEME_2" = "OLED 深色模式";
-"OLED_DARK_THEME_DESC" = "在某些情況下無法正常運作。更動此選項後，需要重新啟動應用程式。";
+"OLED_DARK_THEME_DESC" = "在某些情況下無法正常運作。更改此選項後，需要重新啟動應用程式。";
 
 "OLED_KEYBOARD" = "OLED 鍵盤（實驗性）";
 "OLED_KEYBOARD_DESC" = "在某些情況下可能無法正常運作。需要重新啟動應用程式。";
 
 // Video player options
-"VIDEO_PLAYER_OPTIONS" = "⏯️ 播放器選項";
+"VIDEO_PLAYER_OPTIONS" = "⏯️ 影片播放器選項";
 
-"SLIDE_TO_SEEK" = "Enable Slide to seek";
-"SLIDE_TO_SEEK_DESC" = "Bring back the Slide to seek gesture.";
+"SLIDE_TO_SEEK" = "啟用滑動快進";
+"SLIDE_TO_SEEK_DESC" = "恢復滑動手勢為調整進度";
 
-"DISABLE_DOUBLE_TAP_TO_SEEK" = "Disable double tap to seek";
+"DISABLE_DOUBLE_TAP_TO_SEEK" = "停用點兩下快進";
 "DISABLE_DOUBLE_TAP_TO_SEEK_DESC" = "";
 
 "SNAP_TO_CHAPTER" = "停用章節跳轉";
@@ -46,7 +46,7 @@
 "PINCH_TO_ZOOM_DESC" = "需要重新啟動應用程式。";
 
 "YT_MINIPLAYER" = "為所有 YouTube 影片啟用迷你播放器";
-"YT_MINIPLAYER_DESC" = "例如兒童影片";
+"YT_MINIPLAYER_DESC" = "某些影片無法啟動迷你播放器(例如兒童影片)";
 
 "STOCK_VOLUME_HUD" = "使用 iOS 內建的音量 HUD";
 "STOCK_VOLUME_HUD_DESC" = "";
@@ -75,8 +75,8 @@
 "REPLACE_PREVIOUS_NEXT_BUTTON" = "更換上一個/下一個按鈕";
 "REPLACE_PREVIOUS_NEXT_BUTTON_DESC" = "將影片播放器控制介面上的上一個/下一個按鈕替換成快轉/倒轉按鈕，需要重新啟動應用程式。";
 
-"RED_PROGRESS_BAR" = "紅色進度列";
-"RED_PROGRESS_BAR_DESC" = "恢復紅色進度列. 需要重新啟動應用程式。";
+"RED_PROGRESS_BAR" = "紅色進度欄";
+"RED_PROGRESS_BAR_DESC" = "恢復紅色進度欄. 需要重新啟動應用程式。";
 
 "HIDE_HOVER_CARD" = "隱藏片尾畫面懸浮卡 (YTNoHoverCards)";
 "HIDE_HOVER_CARD_DESC" = "在影片結尾隱藏創作者結束畫面。";
@@ -99,8 +99,8 @@
 // Miscellaneous
 "MISCELLANEOUS" = "🔎 雜項";
 
-"HIDE_UYOU" = "Hide uYou tab";
-"HIDE_ISPONSORBLOCK" = "Hide iSponsorBlock button";
+"HIDE_UYOU" = "隱藏 uYou 分頁";
+"HIDE_ISPONSORBLOCK" = "隱藏 iSponsorBlock 按鈕";
 
 "CAST_CONFIRM" = "投放前確認 (YTCastConfirm)";
 "CAST_CONFIRM_DESC" = "在投放前顯示確認訊息，以防止家人幹樵。";
@@ -115,19 +115,19 @@
 "ENABLE_YT_STARTUP_ANIMATION" = "啟用 Youtube 歡迎動畫";
 "ENABLE_YT_STARTUP_ANIMATION_DESC" = "";
 
-"HIDE_CHIP_BAR" = "隱藏上層欄位";
-"HIDE_CHIP_BAR_DESC" = "隱藏主畫面上層欄位 (話題, 音樂, 遊戲...) 和訂閱對象動態 (所有影片, 繼續觀看...). 需要重新啟動應用程式。";
+"HIDE_CHIP_BAR" = "隱藏頂部欄位";
+"HIDE_CHIP_BAR_DESC" = "隱藏主畫面頂部欄位 (話題, 音樂, 遊戲...) 和訂閱對象動態 (所有影片, 繼續觀看...). 需要重新啟動應用程式。";
 
-"HIDE_PLAY_NEXT_IN_QUEUE" = "Hide \"Play next in queue\"";
+"HIDE_PLAY_NEXT_IN_QUEUE" = "隱藏 \"播放清單中的下一個\"";
 "HIDE_PLAY_NEXT_IN_QUEUE_DESC" = "";
 
-"IPHONE_LAYOUT" = "iPhone 佈局";
+"IPHONE_LAYOUT" = "強制 iPhone 佈局";
 "IPHONE_LAYOUT_DESC" = "切換使用iPhone佈局. 需要重新啟動應用程式。";
 
 "NEW_MINIPLAYER_STYLE" = "迷你播放器 (BigYTMiniPlayer)";
 "NEW_MINIPLAYER_STYLE_DESC" = "需要重新啟動應用程式。";
 
-"YT_RE_EXPLORE" = "用探索分頁代替 Shorts 分頁 (YTReExplore)";
+"YT_RE_EXPLORE" = "用探索頁代替 Shorts 分頁 (YTReExplore)";
 "YT_RE_EXPLORE_DESC" = "需要重新啟動應用程式。";
 
 "ENABLE_FLEX" = "啟用 FLEX";
