@@ -9,13 +9,13 @@
 
 "QUIT_YOUTUBE" = "離開 YouTube";
 
-"RESTART_YOUTUBE" = "重新起動 YouTube 以套用您的更變";
+"RESTART_YOUTUBE" = "重新起動 YouTube 以套用更變";
 
 // App appearance
 "APP_THEME" = "🎨 App 外觀";
 "THEME_OPTIONS" = "主題風格選項";
 
-"DARK_THEME" = "黑暗主題";
+"DARK_THEME" = "深色主題";
 
 "DEFAULT_THEME" = "預設";
 "DEFAULT_THEME_DESC" = "YouTube預設深色模式. 需要重新啟動應用程式。";
