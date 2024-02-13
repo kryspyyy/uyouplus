@@ -54,7 +54,12 @@ NSBundle *tweakBundle = uYouPlusBundle();
 // See YTMiniPlayerEnabler.x
 
 // Use stock iOS volume HUD
-// See YTStockVolumeHUD.xm
+// Use YTColdConfig's method instead of YTStockVolumeHUD.xm, see https://x.com/PoomSmart/status/1756904290445332653
+%hook YTColdConfig
+- (BOOL)iosUseSystemVolumeControlInFullscreen {
+    return IS_ENABLED(@"stockVolumeHUD_enabled") ? YES : %orig;
+}
+%end
 
 # pragma mark - Video control overlay options
 
@@ -87,6 +92,11 @@ NSBundle *tweakBundle = uYouPlusBundle();
     else { return %orig; }
 }
 %end
+%hook YTColdConfig
+- (BOOL)iosEnableFeaturedChannelWatermarkOverlayFix {
+    return IS_ENABLED(@"hideChannelWatermark_enabled") ? NO : %orig;
+}
+%end
 
 // Hide next and previous buttons
 %group gHidePreviousAndNextButton
@@ -97,12 +107,13 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %end
 
 // Replace next and previous buttons with fast forward and rewind
-%group gReplacePreviousAndNextButton
-%hook YTColdConfig
-- (BOOL)replaceNextPaddleWithFastForwardButtonForSingletonVods { return YES; }
-- (BOOL)replacePreviousPaddleWithRewindButtonForSingletonVods { return YES; }
-%end
-%end
+// Not needed anymore because uYou v3.0.2+ added this features
+// %group gReplacePreviousAndNextButton
+// %hook YTColdConfig
+// - (BOOL)replaceNextPaddleWithFastForwardButtonForSingletonVods { return YES; }
+// - (BOOL)replacePreviousPaddleWithRewindButtonForSingletonVods { return YES; }
+// %end
+// %end
 
 // Bring back the red progress bar - Broken?!
 %hook YTInlinePlayerBarContainerView
@@ -166,6 +177,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 
 // YTCastConfirm
 // See YTCastConfirm.xm
+// Not needed anymore because uYou v3.0.2+ added this features
 
 // Disable hints - https://github.com/LillieH001/YouTube-Reborn/blob/v4/
 %group gDisableHints
@@ -207,6 +219,13 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %hook YTHeaderContentComboView
 - (void)setFeedHeaderScrollMode:(int)arg1 { %orig(0); }
 %end
+%end
+
+// Hide "Play next in queue" - qnblackcat/uYouPlus#1138
+%hook YTMenuItemVisibilityHandler
+- (BOOL)shouldShowServiceItemRenderer:(YTIMenuConditionalServiceItemRenderer *)renderer {
+    return IS_ENABLED(@"hidePlayNextInQueue_enabled") && renderer.icon.iconType == 251 ? NO : %orig;
+}
 %end
 
 // Force iPhone layout
