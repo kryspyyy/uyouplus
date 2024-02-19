@@ -109,70 +109,68 @@
 %end
 
 // Fix navigation bar showing a lighter grey with default dark mode - https://github.com/therealFoxster/uYouPlus/commit/8db8197
-%hook YTCommonColorPalette
-- (UIColor *)brandBackgroundSolid {
-    return self.pageStyle == 1 ? [UIColor colorWithRed:0.05882352941176471 green:0.05882352941176471 blue:0.05882352941176471 alpha:1.0] : %orig;
-}
-%end
+// %hook YTCommonColorPalette
+// - (UIColor *)brandBackgroundSolid {
+//     return self.pageStyle == 1 ? [UIColor colorWithRed:0.05882352941176471 green:0.05882352941176471 blue:0.05882352941176471 alpha:1.0] : %orig;
+// }
+// %end
 
 // Fix uYou's appearance not updating if the app is backgrounded
-// DownloadsPagerVC *downloadsPagerVC;
-// NSUInteger selectedTabIndex;
-// static void refreshUYouAppearance() {
-//     if (!downloadsPagerVC) return;
-//     // View pager
-//     [downloadsPagerVC updatePageStyles];
-//     // Views
-//     for (UIViewController *vc in [downloadsPagerVC viewControllers]) {
-//         if ([vc isKindOfClass:%c(DownloadingVC)]) {
-//             // `Downloading` view
-//             [(DownloadingVC *)vc updatePageStyles];
-//             for (UITableViewCell *cell in [(DownloadingVC *)vc tableView].visibleCells)
-//                 if ([cell isKindOfClass:%c(DownloadingCell)])
-//                     [(DownloadingCell *)cell updatePageStyles];
-//         }
-//         else if ([vc isKindOfClass:%c(DownloadedVC)]) {
-//             // `All`, `Audios`, `Videos`, `Shorts` views
-//             [(DownloadedVC *)vc updatePageStyles];
-//             for (UITableViewCell *cell in [(DownloadedVC *)vc tableView].visibleCells)
-//                 if ([cell isKindOfClass:%c(DownloadedCell)])
-//                     [(DownloadedCell *)cell updatePageStyles];
-//         }
-//     }
-//     // View pager tabs
-//     for (UIView *subview in [downloadsPagerVC view].subviews) {
-//         if ([subview isKindOfClass:[UIScrollView class]]) {
-//             UIScrollView *tabs = (UIScrollView *)subview;
-//             NSUInteger i = 0;
-//             for (UIView *item in tabs.subviews) {
-//                 if ([item isKindOfClass:[UILabel class]]) {
-//                     // Tab label
-//                     UILabel *tabLabel = (UILabel *)item;
-//                     if (i == selectedTabIndex) {} // Selected tab should be excluded
-//                     else [tabLabel setTextColor:[UILabel _defaultColor]];
-//                     i++;
-//                 }
-//             }
-//         }
-//     }
-// }
-
-// %hook DownloadsPagerVC
-// - (instancetype)init {
-//     downloadsPagerVC = %orig;
-//     return downloadsPagerVC;
-// }
-// - (void)viewPager:(id)viewPager didChangeTabToIndex:(NSUInteger)arg1 fromTabIndex:(NSUInteger)arg2 {
-//     %orig; selectedTabIndex = arg1;
-// }
-// %end
-
-// %hook UIViewController
-// - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-//     %orig;
-//     refreshUYouAppearance();
-// }
-// %end
+DownloadsPagerVC *downloadsPagerVC;
+NSUInteger selectedTabIndex;
+static void refreshUYouAppearance() {
+    if (!downloadsPagerVC) return;
+    // View pager
+    [downloadsPagerVC updatePageStyles];
+    // Views
+    for (UIViewController *vc in [downloadsPagerVC viewControllers]) {
+        if ([vc isKindOfClass:%c(DownloadingVC)]) {
+            // `Downloading` view
+            [(DownloadingVC *)vc updatePageStyles];
+            for (UITableViewCell *cell in [(DownloadingVC *)vc tableView].visibleCells)
+                if ([cell isKindOfClass:%c(DownloadingCell)])
+                    [(DownloadingCell *)cell updatePageStyles];
+        }
+        else if ([vc isKindOfClass:%c(DownloadedVC)]) {
+            // `All`, `Audios`, `Videos`, `Shorts` views
+            [(DownloadedVC *)vc updatePageStyles];
+            for (UITableViewCell *cell in [(DownloadedVC *)vc tableView].visibleCells)
+                if ([cell isKindOfClass:%c(DownloadedCell)])
+                    [(DownloadedCell *)cell updatePageStyles];
+        }
+    }
+    // View pager tabs
+    for (UIView *subview in [downloadsPagerVC view].subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            UIScrollView *tabs = (UIScrollView *)subview;
+            NSUInteger i = 0;
+            for (UIView *item in tabs.subviews) {
+                if ([item isKindOfClass:[UILabel class]]) {
+                    // Tab label
+                    UILabel *tabLabel = (UILabel *)item;
+                    if (i == selectedTabIndex) {} // Selected tab should be excluded
+                    else [tabLabel setTextColor:[UILabel _defaultColor]];
+                    i++;
+                }
+            }
+        }
+    }
+}
+%hook DownloadsPagerVC
+- (instancetype)init {
+    downloadsPagerVC = %orig;
+    return downloadsPagerVC;
+}
+- (void)viewPager:(id)viewPager didChangeTabToIndex:(NSUInteger)arg1 fromTabIndex:(NSUInteger)arg2 {
+    %orig; selectedTabIndex = arg1;
+}
+%end
+%hook UIViewController
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    %orig;
+    refreshUYouAppearance();
+}
+%end
 
 // Prevent uYou's playback from colliding with YouTube's
 %hook PlayerVC
