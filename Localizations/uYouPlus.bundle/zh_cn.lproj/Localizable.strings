@@ -1,31 +1,31 @@
 // About
-"ABOUT" = "About";
+"ABOUT" = "关于";
 
-"VERSION" = "当前 uYouPlus 版本：%@";
+"VERSION" = "版本";
 "VERSION_CHECK" = "点击此处前往 GitHub 查看最新版本信息！";
 
-"REPORT_AN_ISSUE" = "Report an issue";
-"ADD_TITLE" = "Add your title here...";
+"REPORT_AN_ISSUE" = "反馈问题";
+"ADD_TITLE" = "请在此处添加标题…";
 
-"QUIT_YOUTUBE" = "Quit YouTube";
+"QUIT_YOUTUBE" = "关闭 YouTube";
 
-"RESTART_YOUTUBE" = "Restart YouTube to apply changes";
+"RESTART_YOUTUBE" = "请重启 YouTube 以使改动生效";
 
 // App appearance
-"APP_THEME" = "🎨 App appearance";
+"APP_THEME" = "🎨 App 外观";
 "THEME_OPTIONS" = "主题选项";
 
-"DARK_THEME" = "Dark theme";
+"DARK_THEME" = "深色模式";
 
 "DEFAULT_THEME" = "默认深色模式";
-"DEFAULT_THEME_DESC" = "使用当前版本 YouTube 的默认深色模式（比灰色稍暗）。更改本设置后需要重启 App。";
+"DEFAULT_THEME_DESC" = "当前版本 YouTube 的默认深色模式（比灰色稍暗）。更改本设置后需要重启 App。";
 
-"OLD_DARK_THEME" = "旧深色模式";
-"OLD_DARK_THEME_DESC" = "使用旧版本 YouTube 的深色模式（灰色模式）。更改本设置后需要重启 App。";
+"OLD_DARK_THEME" = "浅灰模式";
+"OLD_DARK_THEME_DESC" = "旧版本 YouTube 的深色模式。更改本设置后需要重启 App。";
 
 "OLED_DARK_THEME" = "OLED 深色模式（实验性功能）";
 "OLED_DARK_THEME_2" = "OLED 深色模式";
-"OLED_DARK_THEME_DESC" = "使用全黑背景，在使用 OLED 屏幕时可节省电量。在某些情况下可能不会正常工作。更改本设置后需要重启 App。";
+"OLED_DARK_THEME_DESC" = "全黑背景，在使用 OLED 屏幕时可节省电量。在某些情况下可能不会正常工作。更改本设置后需要重启 App。";
 
 "OLED_KEYBOARD" = "OLED 键盘（实验性功能）";
 "OLED_KEYBOARD_DESC" = "在某些情况下可能不会正常工作。更改本设置后需要重启 App。";
@@ -33,8 +33,8 @@
 // Video player options
 "VIDEO_PLAYER_OPTIONS" = "⏯️ 视频播放器选项";
 
-"SLIDE_TO_SEEK" = "Enable Slide to seek";
-"SLIDE_TO_SEEK_DESC" = "Bring back the Slide to seek gesture";
+"SLIDE_TO_SEEK" = "长按滑动调整进度";
+"SLIDE_TO_SEEK_DESC" = "恢复旧版本中通过长按视频任意处然后滑动来调整进度的功能。";
 
 "DISABLE_DOUBLE_TAP_TO_SEEK" = "禁用双击快进和快退";
 "DISABLE_DOUBLE_TAP_TO_SEEK_DESC" = "";
@@ -48,7 +48,7 @@
 "YT_MINIPLAYER" = "为所有 YouTube 视频启用迷你播放器";
 "YT_MINIPLAYER_DESC" = "例如：面向儿童的视频。";
 
-"STOCK_VOLUME_HUD" = "使用 iOS 自带音量指示";
+"STOCK_VOLUME_HUD" = "iOS 原生音量指示";
 "STOCK_VOLUME_HUD_DESC" = "";
 
 // Video controls overlay options
@@ -85,22 +85,22 @@
 "HIDE_RIGHT_PANEL_DESC" = "更改本设置后需要重启App。";
 
 // Shorts controls overlay options
-"SHORTS_CONTROLS_OVERLAY_OPTIONS" = "💥 Shorts 短片播放器选项";
+"SHORTS_CONTROLS_OVERLAY_OPTIONS" = "💥 Shorts 短视频播放器选项";
 
 "HIDE_SUPER_THANKS" = "隐藏“购买超级感谢”横幅";
-"HIDE_SUPER_THANKS_DESC" = "隐藏出现在部分 Shorts 短片中的“购买超级感谢”横幅。";
+"HIDE_SUPER_THANKS_DESC" = "隐藏出现在部分 Shorts 短视频中的“购买超级感谢”横幅。";
 
 "HIDE_SUBCRIPTIONS" = "隐藏订阅按钮";
 "HIDE_SUBCRIPTIONS_DESC" = "隐藏在暂停时出现的订阅按钮。";
 
-"DISABLE_RESUME_TO_SHORTS" = "应用重启后不恢复至 Shorts 短片";
-"DISABLE_RESUME_TO_SHORTS_DESC" = "若您在观看 Shorts 短片时关闭了 YouTube，下次启动时将不再自动进入 Shorts 短片分区。";
+"DISABLE_RESUME_TO_SHORTS" = "应用重启后不恢复至 Shorts 短视频";
+"DISABLE_RESUME_TO_SHORTS_DESC" = "若您在观看 Shorts 短视频时关闭了 YouTube，下次启动时将不再自动进入 Shorts 短视频分区。";
 
 // Miscellaneous
 "MISCELLANEOUS" = "🔎 其它选项";
 
-"HIDE_UYOU" = "Hide uYou tab";
-"HIDE_ISPONSORBLOCK" = "Hide iSponsorBlock button";
+"HIDE_UYOU" = "隐藏 uYou 选项卡";
+"HIDE_ISPONSORBLOCK" = "隐藏 iSponsorBlock 按钮";
 
 "CAST_CONFIRM" = "投屏前确认 （YTCastConfirm）";
 "CAST_CONFIRM_DESC" = "在投屏前显示确认对话框以防意外劫屏。";
@@ -118,7 +118,7 @@
 "HIDE_CHIP_BAR" = "隐藏顶部标签栏";
 "HIDE_CHIP_BAR_DESC" = "隐藏首页和订阅内容页顶部的标签栏（例如：首页顶部的“音乐”、“游戏”、“新闻”以及订阅内容页顶部的“今天”、“继续观看”、“未观看”等）。更改本设置后需要重启 App。";
 
-"HIDE_PLAY_NEXT_IN_QUEUE" = "Hide \"Play next in queue\"";
+"HIDE_PLAY_NEXT_IN_QUEUE" = "隐藏“加入队列，接下来就播放”选项";
 "HIDE_PLAY_NEXT_IN_QUEUE_DESC" = "";
 
 "IPHONE_LAYOUT" = "iPhone 视图";
