@@ -6,7 +6,7 @@ name: Build and Release uYouPlus
 on:
   workflow_dispatch:
     inputs:
-      uyou_version:
+      uyou_version: 3.0.3
         description: "The version of uYou"
         default: "3.0.3"
         required: true
