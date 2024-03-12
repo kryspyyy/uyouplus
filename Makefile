@@ -38,7 +38,7 @@ _ALDERIS_BUILD_PATH = $(_ALDERIS_XCODE_INSTALL_DIR)$(THEOS_PACKAGE_INSTALL_PREFI
 export _THEOS_INTERNAL_LDFLAGS := -L$(THEOS_OBJ_DIR) -F$(_ALDERIS_BUILD_PATH) $(_THEOS_INTERNAL_LDFLAGS)
 $(TWEAK_NAME)_EMBED_FRAMEWORKS += $(_ALDERIS_BUILD_PATH)/Alderis.framework
 
-SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed Tweaks/IAmYouTube
+SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed # Tweaks/IAmYouTube
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 include $(THEOS_MAKE_PATH)/tweak.mk
