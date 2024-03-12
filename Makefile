@@ -5,10 +5,6 @@ export libcolorpicker_ARCHS = arm64
 export libFLEX_ARCHS = arm64
 export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks -Wno-module-import-in-extern-c
 
-export Alderis_XCODEOPTS = LD_DYLIB_INSTALL_NAME=@rpath/Alderis.framework/Alderis
-export libcolorpicker_LDFLAGS = -F$(TARGET_PRIVATE_FRAMEWORK_PATH) -install_name @rpath/libcolorpicker.dylib
-export ADDITIONAL_LDFLAGS = -rpath /Library/Frameworks -rpath /usr/lib
-
 ifndef YOUTUBE_VERSION
 YOUTUBE_VERSION = 19.08.2
 endif
