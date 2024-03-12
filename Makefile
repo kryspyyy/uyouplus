@@ -70,7 +70,8 @@ before-all::
 before-package::
 	@cp $(UYOU_DYLIB) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp -r $(UYOU_BUNDLE) $(THEOS_STAGING_DIR)/Library/Application\ Support/
-	@cp $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
+	@mv $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
+	@ln -s Alderis-ios14 $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/PlugIns; cp -r $(THEOS_PROJECT_DIR)/Extensions/*.appex $(THEOS_STAGING_DIR)/Library/PlugIns
 before-package::
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support; cp -r Localizations/uYouPlus.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
