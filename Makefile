@@ -50,6 +50,7 @@ UYOU_PATH = Tweaks/uYou
 UYOU_DEB_NAME = com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm$(if $(filter $(THEOS_PACKAGE_SCHEME),rootless),64).deb
 UYOU_DEB = $(UYOU_PATH)/$(UYOU_DEB_NAME)
 UYOU_DYLIB = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate/DynamicLibraries/uYou.dylib
+UYOU_FILTER = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate/DynamicLibraries/uYou.plist
 UYOU_BUNDLE = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Application\ Support/uYouBundle.bundle
 
 internal-clean::
@@ -69,6 +70,7 @@ before-all::
 	fi;
 before-package::
 	@cp $(UYOU_DYLIB) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
+	@cp $(UYOU_FILTER) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp -r $(UYOU_BUNDLE) $(THEOS_STAGING_DIR)/Library/Application\ Support/
 	@mv $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
 	@ln -s Alderis-ios14 $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis
