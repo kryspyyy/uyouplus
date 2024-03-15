@@ -15,8 +15,6 @@ PACKAGE_VERSION = $(YOUTUBE_VERSION)-$(UYOU_VERSION)
 
 INSTALL_TARGET_PROCESSES = YouTube
 TWEAK_NAME = uYouPlus
-DISPLAY_NAME = YouTube
-BUNDLE_ID = com.google.ios.youtube
 
 ifneq ($(or $(IPA),$($(TWEAK_NAME)_IPA)),)
 MODULES = jailed
@@ -72,8 +70,7 @@ before-package::
 	@cp $(UYOU_DYLIB) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp $(UYOU_FILTER) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp -r $(UYOU_BUNDLE) $(THEOS_STAGING_DIR)/Library/Application\ Support/
-	@mv $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
-	@ln -s Alderis-ios14 $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis
+	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis-ios14
+	@ln -s Alderis-ios14 $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/PlugIns; cp -r $(THEOS_PROJECT_DIR)/Extensions/*.appex $(THEOS_STAGING_DIR)/Library/PlugIns
-before-package::
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support; cp -r Localizations/uYouPlus.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
