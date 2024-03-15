@@ -1,9 +1,10 @@
 export TARGET = iphone:clang:latest:14.0
 export ARCHS = arm64
 
-export libcolorpicker_ARCHS = arm64
-export libFLEX_ARCHS = arm64
 export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks -Wno-module-import-in-extern-c
+export libcolorpicker_ARCHS = arm64
+export libcolorpicker_LDFLAGS = -F$(TARGET_PRIVATE_FRAMEWORK_PATH)
+export libFLEX_ARCHS = arm64
 
 ifndef YOUTUBE_VERSION
 YOUTUBE_VERSION = 19.08.2
