@@ -6,19 +6,25 @@ export libcolorpicker_ARCHS = arm64
 export libFLEX_ARCHS = arm64
 
 ifndef YOUTUBE_VERSION
-YOUTUBE_VERSION = 19.08.2
+  YOUTUBE_VERSION = 19.08.2
 endif
 ifndef UYOU_VERSION
-UYOU_VERSION = 3.0.3
+  UYOU_VERSION = 3.0.3
 endif
 PACKAGE_VERSION = $(YOUTUBE_VERSION)-$(UYOU_VERSION)
 
 INSTALL_TARGET_PROCESSES = YouTube
 TWEAK_NAME = uYouPlus
 
+ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
+  export ROOTLESS = 1
+else ifeq ($(ROOTLESS),1)
+  export THEOS_PACKAGE_SCHEME = rootless
+endif
+
 ifneq ($(or $(IPA),$($(TWEAK_NAME)_IPA)),)
-MODULES = jailed
-undefine THEOS_PACKAGE_SCHEME
+  MODULES = jailed
+  undefine THEOS_PACKAGE_SCHEME
 endif
 
 $(TWEAK_NAME)_FILES := $(wildcard Sources/*.xm) $(wildcard Sources/*.x)
@@ -31,9 +37,10 @@ $(TWEAK_NAME)_EMBED_EXTENSIONS = $(wildcard Extensions/*.appex)
 
 include $(THEOS)/makefiles/common.mk
 
-_ALDERIS_XCODE_INSTALL_DIR = $(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install_Alderis$(if $(_THEOS_FINAL_PACKAGE),.xcarchive/Products)
-_ALDERIS_BUILD_PATH = $(_ALDERIS_XCODE_INSTALL_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks
-export _THEOS_INTERNAL_LDFLAGS := -L$(THEOS_OBJ_DIR) -F$(_ALDERIS_BUILD_PATH) $(_THEOS_INTERNAL_LDFLAGS)
+_ALDERIS_INSTALL_DIR_NAME = install_Alderis$(if $(_THEOS_FINAL_PACKAGE),.xcarchive/Products)
+_ALDERIS_INSTALL_DIR = $(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/$(_ALDERIS_INSTALL_DIR_NAME)
+_ALDERIS_BUILD_PATH = $(_ALDERIS_INSTALL_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks
+export _THEOS_INTERNAL_COLORFLAGS += -L$(THEOS_OBJ_DIR) -F$(_ALDERIS_BUILD_PATH) -rpath /Library/Frameworks -rpath /usr/lib
 $(TWEAK_NAME)_EMBED_FRAMEWORKS += $(_ALDERIS_BUILD_PATH)/Alderis.framework
 
 SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed # Tweaks/IAmYouTube
@@ -51,9 +58,9 @@ UYOU_DYLIB = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate
 UYOU_FILTER = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate/DynamicLibraries/uYou.plist
 UYOU_BUNDLE = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Application\ Support/uYouBundle.bundle
 
+# uYou
 internal-clean::
 	@rm -rf $(UYOU_PATH)/*
-
 before-all::
 	@if [[ ! -f $(UYOU_DEB) ]]; then \
 		$(PRINT_FORMAT_BLUE) "Downloading uYou"; \
@@ -70,7 +77,24 @@ before-package::
 	@cp $(UYOU_DYLIB) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp $(UYOU_FILTER) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
 	@cp -r $(UYOU_BUNDLE) $(THEOS_STAGING_DIR)/Library/Application\ Support/
-	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis-ios14
-	@ln -s Alderis-ios14 $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework/Alderis
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/PlugIns; cp -r $(THEOS_PROJECT_DIR)/Extensions/*.appex $(THEOS_STAGING_DIR)/Library/PlugIns
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support; cp -r Localizations/uYouPlus.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
+
+# Alderis
+ifeq ($(ROOTLESS),1)
+before-all::
+	@mkdir -p $(THEOS_OBJ_DIR)
+	@ln -sf $(_ALDERIS_INSTALL_DIR_NAME) $(THEOS_OBJ_DIR)/install
+after-all::
+	@rm $(THEOS_OBJ_DIR)/install
+before-package::
+  # Alderis should not already be in /var/jb
+	@mkdir -p $(THEOS_STAGING_DIR)/Library/Frameworks
+	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework
+	@mkdir -p $(THEOS_STAGING_DIR)/usr/lib
+	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/usr/lib/libcolorpicker.dylib $(THEOS_STAGING_DIR)/usr/lib/libcolorpicker.dylib
+	@rm -rf $(THEOS_STAGING_DIR)/var
+endif
+before-package::
+	@mv $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
+	@ln -sf Alderis-ios14 $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis
