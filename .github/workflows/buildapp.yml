@@ -6,15 +6,20 @@ name: Build and Release uYouPlus
 on:
   workflow_dispatch:
     inputs:
+      youtube_version: 
+        description: "The version of YouTube"
+        default: "19.08.2"
+        required: false
+        type: string
       uyou_version:
         description: "The version of uYou"
         default: "3.0.3"
-        required: true
+        required: false
         type: string
       decrypted_youtube_url:
         description: "Direct URL to the decrypted YouTube ipa. The version of YouTube will be detected automatically."
         default: ""
-        required: true
+        required: false
         type: string
       bundle_id:
         description: "Modify the bundle ID. Not recommended"
@@ -61,14 +66,17 @@ jobs:
       - name: Set PATH environment variable
         run: echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH 
 
-      - name: Setup Theos
+      - name: Checkout Theos
         uses: actions/checkout@v4.1.1
         with:
           repository: theos/theos
           ref: master
           path: theos
           submodules: recursive
-      
+
+      - name: Setup Theos
+        run: echo "THEOS=${{ github.workspace }}/theos" >> $GITHUB_ENV
+
       - name: Caching
         id: SDK
         uses: actions/cache@v4.0.0
@@ -85,10 +93,9 @@ jobs:
           git sparse-checkout set --no-cone iPhoneOS16.5.sdk
           git checkout
           mv *.sdk $THEOS/sdks
-        env:
-          THEOS: ${{ github.workspace }}/theos
 
       - name: Setup Theos Jailed
+        if: ${{ inputs.decrypted_youtube_url != '' }}
         uses: actions/checkout@v4.1.1
         with:
           repository: qnblackcat/theos-jailed
@@ -97,65 +104,90 @@ jobs:
           submodules: recursive
 
       - name: Install Theos Jailed
+        if: ${{ inputs.decrypted_youtube_url != '' }}
         run: |
           ./theos-jailed/install
-        env:
-          THEOS: ${{ github.workspace }}/theos
 
-      - name: Prepare YouTube iPA
+      - name: Prepare YouTube IPA
         id: prepare_youtube
+        if: ${{ inputs.decrypted_youtube_url != '' }}
         run: |
-          wget "$YOUTUBE_URL" --no-verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
-          mv YouTube.ipa YouTube.zip
-          unzip -q YouTube.zip
-          youtube_version=$(defaults read "$(pwd)/Payload/YouTube.app/Info" CFBundleVersion)
+          wget "${{ inputs.decrypted_youtube_url }}" -nv -O YouTube.ipa
+          youtube_version=$(unzip -p YouTube.ipa Payload/YouTube.app/Info.plist | xpath -q -e '//key[text()="CFBundleVersion"]/following-sibling::*[1]/text()')
           echo "==> YouTube v$youtube_version downloaded!"
-          sed -i '' "17s#.*#YOUTUBE_VERSION = ${youtube_version}#g" Makefile
           echo "youtube_version=${youtube_version}" >> $GITHUB_OUTPUT
 
-        env:
-          THEOS: ${{ github.workspace }}/theos
-          YOUTUBE_URL: ${{ inputs.decrypted_youtube_url }}
+      - name: Resolve versions
+        id: resolve_versions
+        run: |
+          youtube_version=${{ steps.prepare_youtube.outputs.youtube_version }}
+          uyou_version=${{ inputs.uyou_version }}
+          if [ -z $youtube_version ]; then
+            youtube_version=${{ inputs.youtube_version }}
+          fi
+          if [ -z $youtube_version ]; then
+            youtube_version="$(cat ${{ github.workspace }}/main/Makefile | grep 'YOUTUBE_VERSION =' | cut -d ' ' -f3)"
+          fi
+          if [ -z $uyou_version ]; then
+            uyou_version="$(cat ${{ github.workspace }}/main/Makefile | grep 'UYOU_VERSION =' | cut -d ' ' -f3)"
+          fi
+          echo "youtube_version=${youtube_version}" >> $GITHUB_OUTPUT
+          echo "uyou_version=${uyou_version}" >> $GITHUB_OUTPUT
 
-      - name: Fix compiling & Build Package
-        id: build_package
+      - name: Build rootless deb
         run: |
           cd ${{ github.workspace }}/main
-          sed -i '' "27s#.*#BUNDLE_ID = ${{ env.BUNDLE_ID }}#g" Makefile
-          sed -i '' "26s#.*#DISPLAY_NAME = ${{ env.APP_NAME }}#g" Makefile          
-          make package THEOS_PACKAGE_SCHEME=rootless IPA=Payload/YouTube.app FINALPACKAGE=1
-          echo "package=$(ls -t packages | head -n1)" >>$GITHUB_OUTPUT
-          echo -e "==> \033[1mSHASUM256: $(shasum -a 256 packages/*.ipa | cut -f1 -d' ')\033[0m"
-          echo -e "==> \033[1mBundle ID: ${{ env.BUNDLE_ID }}\033[0m"
-
+          make package
         env:
-          THEOS: ${{ github.workspace }}/theos
-          UYOU_VERSION: ${{ inputs.uyou_version }}
+          THEOS_PACKAGE_SCHEME: rootless
+          UYOU_VERSION: ${{ steps.resolve_versions.outputs.uyou_version }}
+          FINALPACKAGE: 1
+
+      - name: Build rootful deb
+        run: |
+          cd ${{ github.workspace }}/main
+          make package
+        env:
+          UYOU_VERSION: ${{ steps.resolve_versions.outputs.uyou_version }}
+          FINALPACKAGE: 1
+
+      - name: Build IPA
+        if: ${{ inputs.decrypted_youtube_url != '' }}
+        run: |
+          cd ${{ github.workspace }}/main
+          make package
+        env:
+          IPA: YouTube.ipa
+          YOUTUBE_VERSION: ${{ steps.resolve_versions.outputs.youtube_version }}
+          UYOU_VERSION: ${{ steps.resolve_versions.outputs.uyou_version }}
           BUNDLE_ID: ${{ inputs.bundle_id }}
           APP_NAME: ${{ inputs.app_name }}
+          FINALPACKAGE: 1
+
+      - name: Print SHA256SUMs
+        run: |
+          cd ${{ github.workspace }}/main/packages
+          for f in *; do
+            printf "\e[0;34m==> \e[1;39m%s\e[m\n" "$(shasum -a 256 $f | tac -bs ' ' | tr -d '\n' | xargs)"
+          done
 
       - name: Upload Artifact
         if: ${{ inputs.upload_artifact }}
         uses: actions/upload-artifact@v4.3.0
-        env:
-          UYOU_VERSION: ${{ inputs.uyou_version }}
-          YOUTUBE_VERSION: ${{ steps.prepare_youtube.outputs.youtube_version }}
         with:
-          name: uYouPlus_${{ env.YOUTUBE_VERSION }}_${{ env.UYOU_VERSION }}
-          path: ${{ github.workspace }}/main/packages/${{ steps.build_package.outputs.package }}
+          name: uYouPlus_${{ steps.resolve_versions.outputs.youtube_version }}_${{ steps.resolve_versions.outputs.uyou_version }}
+          path: ${{ github.workspace }}/main/packages/*
           if-no-files-found: error
 
       - name: Create Release
         id: create_release
+        if: ${{ inputs.create_release }}
         uses: qnblackcat/action-gh-release@master
+        with:
+          tag_name: v${{ steps.resolve_versions.outputs.youtube_version }}-${{ steps.resolve_versions.outputs.uyou_version }}-(${{ github.run_number }})
+          name: v${{ steps.resolve_versions.outputs.youtube_version }}-${{ steps.resolve_versions.outputs.uyou_version }}-(${{ github.run_number }})
+          files: main/packages/*
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UYOU_VERSION: ${{ inputs.uyou_version }}
-          YOUTUBE_VERSION: ${{ steps.prepare_youtube.outputs.youtube_version }}
-          DRAFT: ${{ inputs.create_release }}
-        with:
-          tag_name: v${{ env.YOUTUBE_VERSION }}-${{ env.UYOU_VERSION }}-(${{ github.run_number }})
-          name: v${{ env.YOUTUBE_VERSION }}-${{ env.UYOU_VERSION }}-(${{ github.run_number }})
-          files: main/packages/*.ipa
-          draft: ${{ env.DRAFT }}
