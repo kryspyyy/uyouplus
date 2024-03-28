@@ -187,6 +187,13 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
 
 # pragma mark - Miscellaneous
 
+// Fix iSponsorBlock crash on iPhones with dynamic island(Spoof old YT version)
+%hook YTVersionUtils
++ (NSString *)appVersion {
+    return @"18.18.2";
+}
+%end
+
 // Hide iSponsorBlock
 %hook YTRightNavigationButtons
 - (void)didMoveToWindow {
