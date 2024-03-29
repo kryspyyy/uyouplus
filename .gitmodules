@@ -37,7 +37,7 @@
 [submodule "Tweaks/FLEXing"]
 	path = Tweaks/FLEXing
 	url = https://github.com/PoomSmart/FLEXing
-	branch = rootless
+	branch = master
 [submodule "Tweaks/Alderis"]
 	path = Tweaks/Alderis
 	url = https://github.com/hbang/Alderis.git

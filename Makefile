@@ -1,75 +1,100 @@
 export TARGET = iphone:clang:latest:14.0
 export ARCHS = arm64
 
+export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks -Wno-module-import-in-extern-c
 export libcolorpicker_ARCHS = arm64
 export libFLEX_ARCHS = arm64
-export Alderis_XCODEOPTS = LD_DYLIB_INSTALL_NAME=@rpath/Alderis.framework/Alderis
-export Alderis_XCODEFLAGS = DYLIB_INSTALL_NAME_BASE=/Library/Frameworks BUILD_LIBRARY_FOR_DISTRIBUTION=YES ARCHS="$(ARCHS)"
-export libcolorpicker_LDFLAGS = -F$(TARGET_PRIVATE_FRAMEWORK_PATH) -install_name @rpath/libcolorpicker.dylib
-export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks/RemoteLog -I$(THEOS_PROJECT_DIR)/Tweaks
-
-ifneq ($(JAILBROKEN),1)
-export DEBUGFLAG = -ggdb -Wno-unused-command-line-argument -L$(THEOS_OBJ_DIR) -F$(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install/Library/Frameworks
-MODULES = jailed
-endif
 
 ifndef YOUTUBE_VERSION
-YOUTUBE_VERSION = 19.08.2
+  YOUTUBE_VERSION = 19.08.2
 endif
 ifndef UYOU_VERSION
-UYOU_VERSION = 3.0.3
+  UYOU_VERSION = 3.0.3
 endif
 PACKAGE_VERSION = $(YOUTUBE_VERSION)-$(UYOU_VERSION)
 
 INSTALL_TARGET_PROCESSES = YouTube
 TWEAK_NAME = uYouPlus
-DISPLAY_NAME = YouTube
-BUNDLE_ID = com.google.ios.youtube
+
+ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
+  export ROOTLESS = 1
+else ifeq ($(ROOTLESS),1)
+  export THEOS_PACKAGE_SCHEME = rootless
+endif
+
+ifneq ($(or $(IPA),$($(TWEAK_NAME)_IPA)),)
+  MODULES = jailed
+  undefine THEOS_PACKAGE_SCHEME
+endif
 
 $(TWEAK_NAME)_FILES := $(wildcard Sources/*.xm) $(wildcard Sources/*.x)
 $(TWEAK_NAME)_FRAMEWORKS = UIKit Security
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc -DTWEAK_VERSION=\"$(PACKAGE_VERSION)\"
 $(TWEAK_NAME)_INJECT_DYLIBS = Tweaks/uYou/Library/MobileSubstrate/DynamicLibraries/uYou.dylib $(THEOS_OBJ_DIR)/libFLEX.dylib $(THEOS_OBJ_DIR)/iSponsorBlock.dylib $(THEOS_OBJ_DIR)/YouTubeDislikesReturn.dylib $(THEOS_OBJ_DIR)/YouPiP.dylib $(THEOS_OBJ_DIR)/YTABConfig.dylib $(THEOS_OBJ_DIR)/YTUHD.dylib $(THEOS_OBJ_DIR)/DontEatMyContent.dylib $(THEOS_OBJ_DIR)/YTVideoOverlay.dylib $(THEOS_OBJ_DIR)/YouMute.dylib $(THEOS_OBJ_DIR)/YouQuality.dylib $(THEOS_OBJ_DIR)/IAmYouTube.dylib $(THEOS_OBJ_DIR)/YTClassicVideoQuality.dylib $(THEOS_OBJ_DIR)/NoYTPremium.dylib $(THEOS_OBJ_DIR)/YoutubeSpeed.dylib
 $(TWEAK_NAME)_EMBED_LIBRARIES = $(THEOS_OBJ_DIR)/libcolorpicker.dylib
-$(TWEAK_NAME)_EMBED_FRAMEWORKS = $(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install_Alderis.xcarchive/Products/var/jb/Library/Frameworks/Alderis.framework
 $(TWEAK_NAME)_EMBED_BUNDLES = $(wildcard Bundles/*.bundle)
 $(TWEAK_NAME)_EMBED_EXTENSIONS = $(wildcard Extensions/*.appex)
 
 include $(THEOS)/makefiles/common.mk
-ifneq ($(JAILBROKEN),1)
-SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/IAmYouTube Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed
+
+_ALDERIS_INSTALL_DIR_NAME = install_Alderis$(if $(_THEOS_FINAL_PACKAGE),.xcarchive/Products)
+_ALDERIS_INSTALL_DIR = $(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/$(_ALDERIS_INSTALL_DIR_NAME)
+_ALDERIS_BUILD_PATH = $(_ALDERIS_INSTALL_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks
+export _THEOS_INTERNAL_COLORFLAGS += -L$(THEOS_OBJ_DIR) -F$(_ALDERIS_BUILD_PATH) -rpath /Library/Frameworks -rpath /usr/lib
+$(TWEAK_NAME)_EMBED_FRAMEWORKS += $(_ALDERIS_BUILD_PATH)/Alderis.framework
+
+SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed # Tweaks/IAmYouTube
 include $(THEOS_MAKE_PATH)/aggregate.mk
-endif
+
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 REMOVE_EXTENSIONS = 1
 CODESIGN_IPA = 0
 
 UYOU_PATH = Tweaks/uYou
-UYOU_DEB = $(UYOU_PATH)/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb
-UYOU_DYLIB = $(UYOU_PATH)/Library/MobileSubstrate/DynamicLibraries/uYou.dylib
-UYOU_BUNDLE = $(UYOU_PATH)/Library/Application\ Support/uYouBundle.bundle
+UYOU_DEB_NAME = com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm$(if $(filter $(THEOS_PACKAGE_SCHEME),rootless),64).deb
+UYOU_DEB = $(UYOU_PATH)/$(UYOU_DEB_NAME)
+UYOU_DYLIB = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate/DynamicLibraries/uYou.dylib
+UYOU_FILTER = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/MobileSubstrate/DynamicLibraries/uYou.plist
+UYOU_BUNDLE = $(UYOU_PATH)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Application\ Support/uYouBundle.bundle
 
+# uYou
 internal-clean::
 	@rm -rf $(UYOU_PATH)/*
-
-ifneq ($(JAILBROKEN),1)
 before-all::
 	@if [[ ! -f $(UYOU_DEB) ]]; then \
-		rm -rf $(UYOU_PATH)/*; \
 		$(PRINT_FORMAT_BLUE) "Downloading uYou"; \
 	fi
 before-all::
 	@if [[ ! -f $(UYOU_DEB) ]]; then \
- 		curl -s https://miro92.com/repo/debs/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -o $(UYOU_DEB); \
+ 		curl -s https://miro92.com/repo/debs/$(UYOU_DEB_NAME) -o $(UYOU_DEB); \
  	fi; \
+	tar -xf $(UYOU_DEB) -C Tweaks/uYou; tar -xf Tweaks/uYou/data.tar* -C Tweaks/uYou; \
 	if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
-		tar -xf Tweaks/uYou/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -C Tweaks/uYou; tar -xf Tweaks/uYou/data.tar* -C Tweaks/uYou; \
-		if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
-			$(PRINT_FORMAT_ERROR) "Failed to extract uYou"; exit 1; \
-		fi; \
+		$(PRINT_FORMAT_ERROR) "Failed to extract uYou"; exit 1; \
 	fi;
-else
 before-package::
+	@cp $(UYOU_DYLIB) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
+	@cp $(UYOU_FILTER) $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
+	@cp -r $(UYOU_BUNDLE) $(THEOS_STAGING_DIR)/Library/Application\ Support/
+	@mkdir -p $(THEOS_STAGING_DIR)/Library/PlugIns; cp -r $(THEOS_PROJECT_DIR)/Extensions/*.appex $(THEOS_STAGING_DIR)/Library/PlugIns
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support; cp -r Localizations/uYouPlus.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
+
+# Alderis
+ifeq ($(ROOTLESS),1)
+before-all::
+	@mkdir -p $(THEOS_OBJ_DIR)
+	@ln -sf $(_ALDERIS_INSTALL_DIR_NAME) $(THEOS_OBJ_DIR)/install
+after-all::
+	@rm $(THEOS_OBJ_DIR)/install
+before-package::
+  # Alderis should not already be in /var/jb
+	@mkdir -p $(THEOS_STAGING_DIR)/Library/Frameworks
+	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/Library/Frameworks/Alderis.framework $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework
+	@mkdir -p $(THEOS_STAGING_DIR)/usr/lib
+	@mv $(THEOS_STAGING_DIR)$(THEOS_PACKAGE_INSTALL_PREFIX)/usr/lib/libcolorpicker.dylib $(THEOS_STAGING_DIR)/usr/lib/libcolorpicker.dylib
+	@rm -rf $(THEOS_STAGING_DIR)/var
 endif
+before-package::
+	@mv $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis-ios14
+	@ln -sf Alderis-ios14 $(THEOS_STAGING_DIR)/Library/Frameworks/Alderis.framework/Alderis
