@@ -1,7 +1,7 @@
 // About
 "ABOUT" = "Sobre";
 
-"VERSION" = "Versão do uYouPlus: %@";
+"VERSION" = "Versão";
 "VERSION_CHECK" = "Toque para verificar se há atualização!";
 
 "REPORT_AN_ISSUE" = "Informar um problema";
