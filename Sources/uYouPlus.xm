@@ -143,10 +143,24 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
 }
 %end
 
-// Bring back the red progress bar - Broken?!
+// Bring back the red progress bar - old versions
 %hook YTInlinePlayerBarContainerView
 - (id)quietProgressBarColor {
     return IS_ENABLED(@"redProgressBar_enabled") ? [UIColor redColor] : %orig;
+}
+%end
+
+// Bring back the red progress bar - new versions
+%hook YTPlayerBarRectangleDecorationView
+- (void)drawRectangleDecorationWithSideMasks:(CGRect)rect {
+    if (IS_ENABLED(@"redProgressBar_enabled")) {
+        YTIPlayerBarDecorationModel *model = [self valueForKey:@"_model"];
+        int overlayMode = model.playingState.overlayMode;
+        model.playingState.overlayMode = 1;
+        %orig;
+        model.playingState.overlayMode = overlayMode;
+    } else
+        %orig;
 }
 %end
 
