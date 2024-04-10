@@ -86,7 +86,7 @@ See [Installation - Wiki](https://github.com/qnblackcat/uYouPlus/wiki/Installati
 
 1. **[uYou](https://miro92.com/repo/depictions/?p=com.miro.uyou):** Enhance your YouTube experience.
 
-2. **[iSponsorBlock](https://github.com/Galactic-Dev/iSponsorBlock):** A jailbreak tweak that implements the SponsorBlock API to skip sponsorships in YouTube vidoes.
+2. **[iSponsorBlock](https://github.com/Galactic-Dev/iSponsorBlock):** A jailbreak tweak that implements the SponsorBlock API to skip sponsorships in YouTube videos.
 
 3. **[YouPiP](https://poomsmart.github.io/repo/depictions/youpip):** Enable **native PiP** in iOS YouTube app.
 
