@@ -105,7 +105,7 @@ jobs:
       - name: Prepare YouTube iPA
         id: prepare_youtube
         run: |
-          wget "$YOUTUBE_URL" --no-verbose -O main/YouTube.ipa
+          curl -sL 'https://api.onedrive.com/v1.0/shares/u!'$(echo -n "$YOUTUBE_URL" | base64 -w0 | tr -d '=' | tr '/+' '_-')/root/content -o main/YouTube.ipa
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
           unzip -q YouTube.zip
